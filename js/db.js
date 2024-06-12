@@ -1,5 +1,5 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp, } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
     getFirestore,
     collection,
@@ -10,6 +10,7 @@ import {
     persistentLocalCache,
     persistentMultipleTabManager
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging.js";
 
 
 // Your web app's Firebase configuration
@@ -32,6 +33,13 @@ export const db = initializeFirestore(app, {
     localCache: persistentLocalCache({
         tabManager: persistentMultipleTabManager() // persistentSingleTabManager()
     })
+});
+
+const messaging = getMessaging(app);
+
+onMessage(messaging, (payload) => {
+    console.log('Message received. ', payload);
+    // Display the notification or update the UI as needed
 });
 
 //
@@ -57,3 +65,21 @@ export const db = initializeFirestore(app, {
 //         }
 //     });
 // });
+
+// Initialize Messaging
+
+getToken(messaging, {vapidKey: "BE10zy7H72wc6zYxXGFC1nExLbeKR-hftEBkW2_QZdvKUaOU8cmT1GlPQ2IEajXTz1eDEvTh2bbuC4aJT2VzEu8"})
+    .then((currentToken) => {
+        if (currentToken) {
+
+            //fhVukQ7Y42jDN68M7i00Bj:APA91bHYXOUkb85AjJivRbVXk0GAyI5zOCrxwAZ_zjw-EC-HrOx-4HX3JH7sAtCmtLdx35jxU2Eyz3taGEZGwmZs4ad5ZlWSl5a4KmkSSTNprDjMHmtbmhNZPqGO3r7cnU6ZXJQqUrR9
+            console.log(currentToken);
+        } else {
+            // Show permission request UI
+            console.log('No registration token available. Request permission to generate one.');
+            // ...
+        }
+    }).catch((err) => {
+    console.log('An error occurred while retrieving token. ', err);
+    // ...
+});
