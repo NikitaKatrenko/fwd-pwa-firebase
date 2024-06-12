@@ -2,14 +2,14 @@ const staticCacheName = 'site-static-v11';
 const dynamicCacheName = 'site-dynamic-v11';
 
 const assets = [
-    '/fwd-pwa-native/',
-    '/fwd-pwa-native/index.html',
-    '/fwd-pwa-native/pages/fallback.html',
-    '/fwd-pwa-native/js/app.js',
-    '/fwd-pwa-native/js/ui.js',
-    '/fwd-pwa-native/js/blog.js',
-    '/fwd-pwa-native/css/styles.css',
-    '/fwd-pwa-native/assets/logo.png',
+    '/',
+    '/index.html',
+    '/pages/fallback.html',
+    '/js/app.js',
+    '/js/ui.js',
+    '/js/blog.js',
+    '/css/styles.css',
+    '/assets/logo.png',
     'https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css',
 ];
 
@@ -56,7 +56,7 @@ self.addEventListener('fetch', evt => {
                 });
             }).catch(() => {
                 if (evt.request.url.indexOf('.html') > -1) {
-                    return caches.match('/fwd-pwa-native/pages/fallback.html')
+                    return caches.match('/pages/fallback.html')
                 }
             })
         );
