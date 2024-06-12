@@ -42,24 +42,26 @@ self.addEventListener('activate', evt => {
 });
 
 //fetch event
-// self.addEventListener('fetch', evt => {
-//     // console.log('fetch event', evt)
-//     evt.respondWith(
-//         caches.match(evt.request).then(cachesRes => {
-//             return cachesRes || fetch(evt.request).then(fetchRes => {
-//                 return caches.open(dynamicCacheName).then(cache => {
-//                     cache.put(evt.request.url, fetchRes.clone());
-//                     limitCacheSize(dynamicCacheName, 3);
-//                     return fetchRes;
-//                 })
-//             });
-//         }).catch(() => {
-//             if (evt.request.url.indexOf('.html') > -1) {
-//                 return caches.match('/fwd-pwa-native/pages/fallback.html')
-//             }
-//         })
-//     );
-// });
+self.addEventListener('fetch', evt => {
+    // console.log('fetch event', evt)
+    if (!evt.request.url.includes('firestore.googleapis')) {
+        evt.respondWith(
+            caches.match(evt.request).then(cachesRes => {
+                return cachesRes || fetch(evt.request).then(fetchRes => {
+                    return caches.open(dynamicCacheName).then(cache => {
+                        cache.put(evt.request.url, fetchRes.clone());
+                        limitCacheSize(dynamicCacheName, 3);
+                        return fetchRes;
+                    })
+                });
+            }).catch(() => {
+                if (evt.request.url.indexOf('.html') > -1) {
+                    return caches.match('/fwd-pwa-native/pages/fallback.html')
+                }
+            })
+        );
+    }
+});
 
 //cache size limit
 const limitCacheSize = (name, size) => {

@@ -3,8 +3,8 @@ import {
     doc,
     query,
     onSnapshot,
-} from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
-import { deleteDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { deleteDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { db } from './db.js';
 
 
