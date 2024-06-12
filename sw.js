@@ -1,5 +1,5 @@
-const staticCacheName = 'site-static-v13';
-const dynamicCacheName = 'site-dynamic-v10';
+const staticCacheName = 'site-static-v11';
+const dynamicCacheName = 'site-dynamic-v11';
 
 const assets = [
     '/fwd-pwa-native/',
@@ -29,7 +29,7 @@ self.addEventListener('activate', evt => {
     // console.log('service worker is activated', evt );
     evt.waitUntil(
         caches.keys().then(keys => {
-            // console.log(keys)
+            console.log(keys)
             return Promise.all(
                 keys
                     .filter(key => key !== staticCacheName && key !== dynamicCacheName)
@@ -42,26 +42,24 @@ self.addEventListener('activate', evt => {
 });
 
 //fetch event
-self.addEventListener('fetch', evt => {
-    // console.log('fetch event', evt)
-    evt.respondWith(
-        caches.match(evt.request).then(cachesRes => {
-            return cachesRes || fetch(evt.request).then(fetchRes => {
-                return caches.open(dynamicCacheName).then(cache => {
-                    cache.put(evt.request.url, fetchRes.clone());
-                    limitCacheSize(dynamicCacheName, 3);
-                    return fetchRes;
-                })
-            });
-        }).catch(() => {
-            if (evt.request.url.indexOf('.html') > -1) {
-                return caches.match('/fwd-pwa-native/pages/fallback.html')
-            }
-            //Також ми можемо окремо додати хендлери на різні типи файлів
-            //Наприклад повернути дефолтну картинку замість будь якої іншої
-        })
-    );
-});
+// self.addEventListener('fetch', evt => {
+//     // console.log('fetch event', evt)
+//     evt.respondWith(
+//         caches.match(evt.request).then(cachesRes => {
+//             return cachesRes || fetch(evt.request).then(fetchRes => {
+//                 return caches.open(dynamicCacheName).then(cache => {
+//                     cache.put(evt.request.url, fetchRes.clone());
+//                     limitCacheSize(dynamicCacheName, 3);
+//                     return fetchRes;
+//                 })
+//             });
+//         }).catch(() => {
+//             if (evt.request.url.indexOf('.html') > -1) {
+//                 return caches.match('/fwd-pwa-native/pages/fallback.html')
+//             }
+//         })
+//     );
+// });
 
 //cache size limit
 const limitCacheSize = (name, size) => {
