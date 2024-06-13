@@ -11,20 +11,20 @@ const firebaseConfig = {
     messagingSenderId: "898981189017",
     appId: "1:898981189017:web:cf62fe6d0ba7aa0ebb2f08"
 };
+//
+// const app = firebase.initializeApp(firebaseConfig);
+//
+// // Initialize Firebase Cloud Messaging and get a reference to the service
+// const messaging = firebase.messaging();
 
-const app = firebase.initializeApp(firebaseConfig);
-
-// Initialize Firebase Cloud Messaging and get a reference to the service
-const messaging = firebase.messaging();
-
-messaging.onBackgroundMessage(payload => {
-    const  { notification } = payload;
-    const { title, body }  = notification;
-
-    const notificationOptions = {
-        body: body,
-        icon: ''
-    };
-
-    self.registration.showNotification(title, notificationOptions);
-});
+// messaging.onBackgroundMessage(payload => {
+//     const  { notification } = payload;
+//     const { title, body }  = notification;
+//
+//     const notificationOptions = {
+//         body: body,
+//         icon: ''
+//     };
+//
+//     self.registration.showNotification(title, notificationOptions);
+// });

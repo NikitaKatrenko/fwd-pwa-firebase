@@ -1,10 +1,11 @@
 import {
     collection,
-    doc,
+    addDoc,
     query,
     onSnapshot,
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import { deleteDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    deleteDoc,
+    doc
+} from "firebase/firestore";
 import { db } from './db.js';
 
 
@@ -22,6 +23,7 @@ class BlogManager {
                 if (change.type === "added") {
                     const postData = { ...change.doc.data(), id: change.doc.id };
                     this.blogPosts.push(postData);
+                    new Notification(postData.title, { body: 'added' });
                 }
                 if (change.type === "modified") {
                     const postData = { ...change.doc.data(), id: change.doc.id };
@@ -79,13 +81,12 @@ class BlogManager {
         const date = new Date().toLocaleDateString();
 
         if (title && content) {
-            const docRef = doc(collection(db, "posts"));
-            setDoc(docRef, { title, content, date })
-                .then(() => {
-                    console.log("Document successfully written!");
+            addDoc(collection(db, "posts"), { title, content, date })
+                .then((docRef) => {
+                    console.log("Document written with ID: ", docRef.id);
                 })
                 .catch((error) => {
-                    console.error("Error writing document: ", error);
+                    console.error("Error adding document: ", error);
                 });
         }
     }
